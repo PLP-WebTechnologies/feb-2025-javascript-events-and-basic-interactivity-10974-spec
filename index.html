@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Contact Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+        #charCount {
+            font-size: 12px;
+            color: gray;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Contact Us</h2>
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Your Name">
+            <div class="error" id="nameError"></div>
+
+            <input type="email" id="email" placeholder="Your Email">
+            <div class="error" id="emailError"></div>
+
+            <textarea id="message" rows="4" placeholder="Your Message (max 200 characters)"></textarea>
+            <div id="charCount">0/200</div>
+            <div class="error" id="messageError"></div>
+
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let isValid = true;
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const message = document.getElementById("message").value.trim();
+
+            document.getElementById("nameError").textContent = "";
+            document.getElementById("emailError").textContent = "";
+            document.getElementById("messageError").textContent = "";
+
+            if (name === "") {
+                document.getElementById("nameError").textContent = "Name is required";
+                isValid = false;
+            }
+
+            if (email === "" || !email.includes("@")) {
+                document.getElementById("emailError").textContent = "Valid email is required";
+                isValid = false;
+            }
+
+            if (message === "") {
+                document.getElementById("messageError").textContent = "Message cannot be empty";
+                isValid = false;
+            } else if (message.length > 200) {
+                document.getElementById("messageError").textContent = "Message too long";
+                isValid = false;
+            }
+
+            if (isValid) {
+                alert("Form submitted successfully!");
+                document.getElementById("contactForm").reset();
+                document.getElementById("charCount").textContent = "0/200";
+            }
+        });
+
+        document.getElementById("message").addEventListener("input", function() {
+            document.getElementById("charCount").textContent = `${this.value.length}/200`;
+        });
+    </script>
+</body>
+</html>
